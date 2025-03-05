@@ -148,7 +148,11 @@
   <div class="flex flex-col pt-10">
     <h1 class="text-2xl">Tus reservas: </h1>
     <div class="flex overflow-x-auto snap-x snap-mandatory sm:gap-10 gap-16 py-4 carousel-scrollbar">
-      <app-card *ngFor="let booking of tripsBooked" [trip]="booking.trip" [shopped]="true"></app-card>
+      <app-card
+        *ngFor="let booking of tripsBooked"
+        [trip]="booking.trip"
+        (openModalEvent)="showBookingModal()"
+        [shopped]="true"></app-card>
     </div>
   </div>
   <p-toast></p-toast>

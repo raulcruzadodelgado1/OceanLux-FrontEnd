@@ -90,4 +90,15 @@ export class BookingService {
   getTripById(tripId: number): Observable<any> {
     return this.http.get(`/api/trip/${tripId}`);
   }
+
+  /**
+   * Método para calificar una reserva existente.
+   *
+   * @param bookingId ID de la reserva a calificar.
+   * @param rate Calificación a asignar a la reserva (de 0 a 5).
+   * @returns Un observable que emite la respuesta del backend tras actualizar la calificación.
+   */
+  rateReservation(bookingId: number, rate: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/rate/${bookingId}`, { rate });
+  }
 }

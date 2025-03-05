@@ -143,7 +143,7 @@ export class ViewLoginRegisterComponent implements OnInit {
    *
    * @returns {void}
    */
-  validateEmail() {
+  validateEmail(): void {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     this.emailValid = emailPattern.test(this.userData.email);
   }
@@ -155,7 +155,7 @@ export class ViewLoginRegisterComponent implements OnInit {
    *
    * @returns {void}
    */
-  validateDNI() {
+  validateDNI(): void {
     const dniPattern = /^[0-9]{8}[A-Za-z]$/;
     this.dniValid = dniPattern.test(this.userData.client.dni);
   }
@@ -166,7 +166,7 @@ export class ViewLoginRegisterComponent implements OnInit {
    *
    * @returns {void}
    */
-  validateBirthdate() {
+  validateBirthdate(): void {
     if (!this.userData.client.birthdate) {
       this.birthdateValid = null;
       return;
@@ -277,10 +277,6 @@ export class ViewLoginRegisterComponent implements OnInit {
     this.authService.login(this.user).subscribe({
       next: () => {
         this.router.navigate(['/']); // Redirigir a la página de inicio
-      },
-      error: (error) => {
-        console.error('Error en login:', error);
-        this.errorMessage = 'Usuario o contraseña incorrectos.';
       }
     });
   }

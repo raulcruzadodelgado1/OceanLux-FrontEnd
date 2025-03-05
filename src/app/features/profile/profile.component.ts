@@ -34,6 +34,9 @@ import { CardComponent } from '../../../component/card/card.component';
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
+  displayBookingModal: boolean = false;
+
+  selectedBooking: any; // Variable para almacenar la reserva seleccionada
 
   /**
    * @description
@@ -123,6 +126,16 @@ export class ProfileComponent implements OnInit {
         console.error('Error obteniendo el usuario', error);
       }
     });
+  }
+
+  // Este método se llama cuando se hace clic en el botón de la card
+  showBookingModal(): void {
+    this.displayBookingModal = true; // Muestra el modal
+  }
+
+  // Método para cerrar el modal
+  hideBookingModal(): void {
+    this.displayBookingModal = false; // Oculta el modal
   }
 
   /**

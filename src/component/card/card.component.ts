@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { DatePipe, NgClass, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Trip } from '../../app/model/trip';
+import {TripService} from '../../app/services/trip.service';
+import {ReviewModalComponent} from '../review-modal/review-modal.component';
 
 /**
  * Componente que representa una tarjeta con los detalles de un viaje.
@@ -16,11 +18,12 @@ import { Trip } from '../../app/model/trip';
     NgIf,
     RouterLink,
     DatePipe,
-    NgClass
+    NgClass,
+    ReviewModalComponent
   ],
   templateUrl: './card.component.html'
 })
-export class CardComponent {
+export class CardComponent implements OnInit {
   /**
    * Propiedad de entrada que indica si el viaje ha sido comprado o no.
    *
@@ -33,6 +36,35 @@ export class CardComponent {
    */
   @Input() trip!: Trip;
 
+  @Output() openModalEvent = new EventEmitter<void>();
+
+  /**
+   * Variable para almacenar la cantidad de valoraciones del viaje.
+   */
+  ratingsCount: number = 0;
+
+  /**
+   * Variable para almacenar la media de valoraciones del viaje.
+   */
+  ratingsAverage: number = 0;
+
+  hasReviewed: boolean = false;
+
+  isModalOpen: boolean = false;
+
+  constructor(private tripService: TripService) {}
+
+  ngOnInit(): void {
+    this.getRatingsCount();
+    this.getRatingsAverage();
+    this.isModalOpen = false;
+  }
+
+  openModal() {
+    this.openModalEvent.emit();
+  }
+
+
   /**
    * Método que verifica si la fecha del viaje ha pasado o no.
    *
@@ -43,5 +75,48 @@ export class CardComponent {
     const tripDate = new Date(dateString);
     const today = new Date();
     return tripDate < today;
+  }
+
+// Método para obtener la cantidad de valoraciones
+  getRatingsCount(): void {
+    if (this.trip.id) {
+      this.tripService.getTripRatingsCount(this.trip.id).subscribe(
+        (response) => {
+          this.ratingsCount = response.ratings_count;
+        },
+        (error) => {
+          console.error('Error al obtener la cantidad de valoraciones:', error);
+        }
+      );
+    } else {
+      console.error('El ID del viaje no está definido.');
+    }
+  }
+
+  /**
+   * Método para obtener la media de valoraciones del viaje.
+   */
+  getRatingsAverage(): void {
+    if (this.trip.id) {  // Verificamos si `trip.id` está definido
+      this.tripService.getTripRatingsAverage(this.trip.id).subscribe(
+        (response) => {
+          this.ratingsAverage = response.average_rating ?? 0; // Usamos 0 si no hay valoraciones
+        },
+        (error) => {
+          console.error('Error al obtener la media de valoraciones:', error);
+        }
+      );
+    } else {
+      console.error('El ID del viaje no está definido.');
+    }
+  }
+
+  closeReviewModal() {
+    this.isModalOpen = false;
+  }
+
+  openReviewModal() {
+    console.log('Abriendo modal...');  // Depuración
+    this.isModalOpen = true;
   }
 }

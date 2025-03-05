@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {catchError, map, Observable, of} from 'rxjs';
 import { Trip } from '../model/trip';
 
 /**
@@ -78,5 +78,45 @@ export class TripService {
   updateTrip(id: number, trip: Trip): Observable<Trip> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Trip>(`${this.apiUrl}/${id}`, trip, { headers });
+  }
+
+  /**
+   * Método para obtener la cantidad de valoraciones de un viaje.
+   *
+   * @param tripId El ID del viaje para el cual obtener la cantidad de valoraciones.
+   * @returns Un observable con la cantidad de valoraciones.
+   */
+  getTripRatingsCount(tripId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${tripId}/ratings/count`);
+  }
+
+  /**
+   * Método para obtener el promedio de las valoraciones de un viaje.
+   *
+   * @param tripId El ID del viaje para el cual obtener el promedio de las valoraciones.
+   * @returns Un observable con el promedio de las valoraciones.
+   */
+  getTripRatingsAverage(tripId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${tripId}/ratings`)
+      .pipe(
+        // En caso de que no haya valoraciones, la respuesta será 0
+        map(response => {
+          if (response.average_rating === undefined) {
+            return { average_rating: 0 };
+          }
+          return response;
+        })
+      );
+  }
+
+  rateBooking(bookingId: number, rate: number): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = { rate: rate };
+    return this.http.post<any>(`${this.apiUrl}/booking/${bookingId}/rate`, body, { headers }).pipe(
+      catchError(error => {
+        console.error('Error rating booking:', error);
+        return of({ message: 'Failed to rate booking' }); // Devuelve un mensaje de error en caso de fallo
+      })
+    );
   }
 }
