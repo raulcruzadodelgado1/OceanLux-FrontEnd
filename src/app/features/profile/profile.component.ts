@@ -379,4 +379,37 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  submitRating(bookingId: number, rate: number): void {
+    // Validamos que el valor esté en el rango de 0 a 5
+    if (rate < 0 || rate > 5) {
+      // Mostramos un mensaje de error usando el Toast de PrimeNG
+      this.messageService.add({
+        severity: 'error',  // El tipo de mensaje (error, info, success, warn)
+        summary: 'Error de valoración',
+        detail: 'La valoración debe ser entre 0 y 5.',
+        life: 3000 // Duración del toast en milisegundos (3 segundos)
+      });
+      return; // No hacemos nada más si el valor es inválido
+    }
+
+    // Si la valoración es válida, enviamos la valoración al backend
+    this.bookingService.rateReservation(bookingId, rate).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Valoración enviada correctamente.',
+          life: 3000
+        });
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Hubo un error al enviar la valoración.',
+          life: 3000
+        });
+      }
+    });
+  }
 }
