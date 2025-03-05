@@ -347,15 +347,24 @@ export class ProfileComponent implements OnInit {
    * Obtiene las reservas confirmadas del usuario autenticado.
    */
   getTripsBooked(): void {
+    // Verificamos si el usuario tiene un id
     if (!this.user?.id) return;
+
+    // Log para ver si el ID del usuario existe
+    console.log('Usuario ID:', this.user.id);
 
     this.bookingService.getConfirmedReservations(this.user.id).subscribe({
       next: (trips) => {
+        // Log para ver las reservas confirmadas
+        console.log('Reservas obtenidas:', trips);
         this.tripsBooked = trips;
 
+        // Iteramos sobre las reservas y obtenemos los detalles de cada viaje
         this.tripsBooked.forEach((booking, index) => {
           this.bookingService.getTripById(booking.trip_id).subscribe({
             next: (trip) => {
+              // Log para ver los detalles del viaje
+              console.log(`Detalles del viaje con ID ${booking.trip_id}:`, trip);
               this.tripsBooked[index].trip = trip;
             },
             error: (error) => {
@@ -366,6 +375,40 @@ export class ProfileComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error obteniendo las reservas:', error);
+      }
+    });
+  }
+
+  submitRating(bookingId: number, rate: number): void {
+    // Validamos que el valor esté en el rango de 0 a 5
+    if (rate < 0 || rate > 5) {
+      // Mostramos un mensaje de error usando el Toast de PrimeNG
+      this.messageService.add({
+        severity: 'error',  // El tipo de mensaje (error, info, success, warn)
+        summary: 'Error de valoración',
+        detail: 'La valoración debe ser entre 0 y 5.',
+        life: 3000 // Duración del toast en milisegundos (3 segundos)
+      });
+      return; // No hacemos nada más si el valor es inválido
+    }
+
+    // Si la valoración es válida, enviamos la valoración al backend
+    this.bookingService.rateReservation(bookingId, rate).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Valoración enviada correctamente.',
+          life: 3000
+        });
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Hubo un error al enviar la valoración.',
+          life: 3000
+        });
       }
     });
   }

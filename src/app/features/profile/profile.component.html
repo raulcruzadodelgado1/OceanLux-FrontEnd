@@ -148,9 +148,29 @@
   <div class="flex flex-col pt-10">
     <h1 class="text-2xl">Tus reservas: </h1>
     <div class="flex overflow-x-auto snap-x snap-mandatory sm:gap-10 gap-16 py-4 carousel-scrollbar">
-      <app-card *ngFor="let booking of tripsBooked" [trip]="booking.trip" [shopped]="true"></app-card>
+      <!-- Iteramos sobre cada booking y mostramos la tarjeta y el formulario de valoración debajo -->
+      <div *ngFor="let booking of tripsBooked; let i = index" class="flex flex-col items-center">
+        <app-card [trip]="booking.trip" [shopped]="true"></app-card>
+
+        <!-- Valoración justo debajo de cada app-card -->
+        <div class="mt-4">
+          <input
+            type="number"
+            [(ngModel)]="booking.rate"
+            min="0"
+            max="5"
+            step="0.1"
+            placeholder="Valoración (0-5)"
+            class="border p-2"
+          />
+          <button (click)="submitRating(booking.id, booking.rate)" class="bg-blue-500 text-white p-2 mt-2">
+            Enviar valoración
+          </button>
+        </div>
+      </div>
     </div>
   </div>
+
   <p-toast></p-toast>
 </div>
 
