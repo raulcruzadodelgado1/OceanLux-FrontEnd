@@ -347,15 +347,24 @@ export class ProfileComponent implements OnInit {
    * Obtiene las reservas confirmadas del usuario autenticado.
    */
   getTripsBooked(): void {
+    // Verificamos si el usuario tiene un id
     if (!this.user?.id) return;
+
+    // Log para ver si el ID del usuario existe
+    console.log('Usuario ID:', this.user.id);
 
     this.bookingService.getConfirmedReservations(this.user.id).subscribe({
       next: (trips) => {
+        // Log para ver las reservas confirmadas
+        console.log('Reservas obtenidas:', trips);
         this.tripsBooked = trips;
 
+        // Iteramos sobre las reservas y obtenemos los detalles de cada viaje
         this.tripsBooked.forEach((booking, index) => {
           this.bookingService.getTripById(booking.trip_id).subscribe({
             next: (trip) => {
+              // Log para ver los detalles del viaje
+              console.log(`Detalles del viaje con ID ${booking.trip_id}:`, trip);
               this.tripsBooked[index].trip = trip;
             },
             error: (error) => {
@@ -369,4 +378,5 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
 }
