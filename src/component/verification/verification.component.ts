@@ -50,11 +50,17 @@ export class VerificationComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const token = params['token'];
+      console.log('Token recibido:', token); // Depuración en consola
+
+      // Mostrar el HTML siempre, sin importar si el token es válido o no
+      this.showAnimation = true;
+
       if (token) {
         this.verifyAccount(token);
       }
     });
   }
+
 
   /**
    * Verifica la cuenta utilizando el token recibido como parámetro.
