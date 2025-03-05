@@ -1,45 +1,45 @@
-<div class="bg-[url('/landing-page-bg.png')] bg-cover bg-fixed min-h-screen">
-  <div class="flex flex-col items-center pt-20 sm:px-[100px] md:px-[180px] lg:px-[300px] px-[30px]">
-    <div class="text-secondary flex flex-col items-center text-center sm:mb-24 mb-80">
-      <img src="/oceanLux-logo.png" class="sm:w-[320px] w-[200px] p-4">
-      <h1 class="sm:text-7xl text-5xl pb-4">OceanLux</h1>
-      <p class="italic lg:text-2xl sm:text-xl text font-light">Siente cada ola, vive la experiencia</p>
-    </div>
-    <div class="flex flex-col text-center items-center gap-4 mb-20 bg-primary p-4 rounded-2xl">
-      <h3 class="text-secondary sm:text-xl lg:text-xl text-lg font-semibold">EMPIEZA A BUSCAR TU PRÓXIMA EXPERIENCIA</h3>
-      <div class="flex sm:flex-row flex-col gap-6">
-        <button
-          routerLink="/logaccount"
-          class="bg-primary text-secondary border-secondary border py-2 w-[225px] rounded-md hover:bg-primary-light transition duration-300">
-          Iniciar sesión
-        </button>
-        <button
-          routerLink="/search"
-          class="bg-secondary text-primary py-2 w-[225px] rounded-md hover:text-secondary hover:bg-primary-light transition duration-300">
-          Buscar experiencias
-        </button>
+<div class="relative min-h-screen bg-[#030a0d]">
+  <!-- Fondo con GIF y opacidad reducida -->
+  <div class="absolute inset-0 bg-[url('/landingBg.jpg')] bg-cover bg-fixed opacity-50"></div>
+
+  <!-- Contenedor con fondo primario y opacidad -->
+  <div class="relative flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="bg-primary bg-opacity-80 rounded-2xl p-8 max-w-5xl w-full sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
+
+      <!-- Contenido del sitio en un grid -->
+      <div class="grid md:grid-cols-2 grid-cols-1 gap-8 items-center">
+
+        <!-- Sección Izquierda -->
+        <div class="text-secondary flex flex-col items-center text-center">
+          <img src="/oceanLux-logo.png" class="sm:w-[320px] w-[200px] p-4">
+          <h1 class="sm:text-7xl text-5xl pb-4">OceanLux</h1>
+          <p class="italic lg:text-2xl sm:text-xl font-light">
+            Siente cada ola, vive la experiencia
+          </p>
+        </div>
+
+        <!-- Sección Derecha (Botones) -->
+        <div class="flex flex-col items-center justify-center md:gap-8 gap-4 h-full text-center">
+          <h3 class="text-secondary text-md sm:text-xl lg:text-2xl font-semibold md:text-center">
+            Empieza a buscar tu próxima experiencia
+          </h3>
+          <div class="flex flex-col w-full gap-6">
+            <button
+              routerLink="/logaccount"
+              class="bg-secondary text-primary py-2 w-full rounded-md hover:text-secondary hover:bg-primary-light transition duration-300">
+              Iniciar sesión
+            </button>
+            <button
+              routerLink="/search"
+              class="bg-secondary text-primary py-2 w-full rounded-md hover:text-secondary hover:bg-primary-light transition duration-300">
+              Buscar experiencias
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
-
-    <!-- BENTO GRID -->
-<!--    <div class="grid grid-flow-row grid-cols-7 gap-3 w-full mb-10">-->
-<!--      <div class="col-span-3 md:h-[170px] h-[100px] rounded-xl">-->
-<!--        <img class="object-cover h-full w-full rounded-xl" src="https://placehold.co/520x410">-->
-<!--      </div>-->
-<!--      <div class="col-span-2 md:h-[170px] h-[100px] rounded-xl">-->
-<!--        <img class="object-cover h-full w-full rounded-xl" src="https://placehold.co/520x410">-->
-<!--      </div>-->
-<!--      <div class="row-span-2 col-span-2 rounded-xl">-->
-<!--        <img class="object-cover h-full w-full rounded-xl" src="https://placehold.co/520x410">-->
-<!--      </div>-->
-<!--      <div class="col-span-2 md:h-[170px] h-[100px] rounded-xl">-->
-<!--        <img class="object-cover h-full w-full rounded-xl" src="https://placehold.co/520x410">-->
-<!--      </div>-->
-<!--      <div class="col-span-3 md:h-[170px] h-[100px] rounded-xl">-->
-<!--        <img class="object-cover h-full w-full rounded-xl" src="https://placehold.co/520x410">-->
-<!--      </div>-->
-<!--    </div>-->
-
   </div>
-  <app-sidebar/>
+
+  <app-sidebar />
 </div>
